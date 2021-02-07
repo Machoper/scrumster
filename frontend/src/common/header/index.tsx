@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Menu, Avatar, Dropdown } from 'antd'
@@ -6,21 +6,28 @@ import { UserOutlined } from '@ant-design/icons'
 import {
     HeaderWrapper, Logo, UserMenu
 } from './style'
+import { actionCreators } from './store'
 
 
-class MurcsHeader extends Component {
+interface IHeaderProps {
+    selectedMenuKeys: string[]
+    setSelectedMenuKeys: (keys: string[]) => void
+}
+
+class MurcsHeader extends PureComponent<IHeaderProps> {
 
     render() {
+        const { selectedMenuKeys, setSelectedMenuKeys } = this.props
         return (
             <HeaderWrapper>
                 <Link to='/'>
-                    <Logo />
+                    <Logo onClick={() => setSelectedMenuKeys([])} />
                 </Link>
-                <Menu theme='dark' mode="horizontal" style={{ background: '#000' }}>
-                    <Menu.Item key="pointing">
+                <Menu theme='dark' mode="horizontal" style={{ background: '#000' }} selectedKeys={selectedMenuKeys}>
+                    <Menu.Item key="pointing" onClick={() => setSelectedMenuKeys(['pointing'])}>
                         <Link to='/pointing'>Pointing</Link>
                     </Menu.Item>
-                    <Menu.Item key="retro">
+                    <Menu.Item key="retro" onClick={() => setSelectedMenuKeys(['retro'])}>
                         <Link to='/retro'>Retro</Link>
                     </Menu.Item>
                 </Menu>
@@ -57,9 +64,13 @@ class MurcsHeader extends Component {
 }
 
 const mapStateToProps = (state: any) => ({
+    selectedMenuKeys: state.getIn(['header', 'selectedMenuKeys'])
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
+    setSelectedMenuKeys: (keys: string[]) => {
+        dispatch(actionCreators.setSelectedMenuKeys(keys))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MurcsHeader)

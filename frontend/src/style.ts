@@ -45,10 +45,15 @@ export const GlobalStyle = createGlobalStyle`
 	border-collapse: collapse;
 	border-spacing: 0;
 	}
+	
+	/* customized global */
+	.align-center-flex {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 `
 
 export const ContentWrapper = styled.div`
-	padding: 24px;
-	min-height: 580px;
-	background: #fff;
+	padding: 24px 0;
 `
