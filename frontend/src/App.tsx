@@ -18,7 +18,7 @@ function App() {
 					</Header>
 					<Layout>
 						<Content style={{ marginTop: 64 }}>
-							<ContentWrapper>
+							<ContentWrapper className='align-center-flex'>
 								<Route path='/' exact component={Home}></Route>
 								<Route path='/pointing' exact component={Pointing}></Route>
 								<Route path='/retro' exact component={Retro}></Route>

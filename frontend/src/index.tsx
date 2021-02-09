@@ -5,10 +5,10 @@ import { GlobalStyle } from './style';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-	<React.StrictMode>
+	<React.Fragment>
 		<GlobalStyle />
 		<App />
-	</React.StrictMode>,
+	</React.Fragment>,
 	document.getElementById('root')
 );
 
