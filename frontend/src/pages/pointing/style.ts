@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { Card, List, Radio } from 'antd'
 
 export const PointingCard: typeof Card = styled(Card)`
-    width: 200px; 
-    height: 200px; 
+    width: 170px; 
+    height: 230px; 
     border: 1px solid #888;
     border-radius: 16px;
 `

@@ -16,15 +16,18 @@ function App() {
 					<Header style={{ position: 'fixed', zIndex: 1, width: '100%', background: '#000' }}>
 						<MurcsHeader />
 					</Header>
-					<Layout>
-						<Content style={{ marginTop: 64 }}>
-							<ContentWrapper className='align-center-flex'>
+					<Layout style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
+						<Content >
+							<ContentWrapper>
 								<Route path='/' exact component={Home}></Route>
 								<Route path='/pointing' exact component={Pointing}></Route>
 								<Route path='/retro' exact component={Retro}></Route>
 							</ContentWrapper>
 						</Content>
-						<Footer style={{ textAlign: 'center', paddingTop: 64 }}>Murcs ©2021 Created by Yixuan Qian</Footer>
+						<Footer 
+							style={{ textAlign: 'center', width: '100%' }}
+						>Murcs ©2021 Created by Yixuan Qian
+						</Footer>
 					</Layout>
 				</Layout>
 			</BrowserRouter>

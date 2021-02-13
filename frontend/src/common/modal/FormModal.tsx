@@ -2,27 +2,31 @@ import { Form, Modal } from 'antd';
 import React from 'react'
 
 interface IProps {
+    title: string
     visible: boolean
     onSubmit: (values: any) => void
     confirmLoading?: boolean
     onCancel: () => void
     // component: React.FC<any>
     getContent: () => JSX.Element
+    initialValues?: any
 }
 
 const FormModal: React.FC<IProps> = ({
+    title,
     visible,
     onSubmit,
     confirmLoading,
     onCancel,
     getContent,
+    initialValues
 }) => {
 
     const [form] = Form.useForm();
 
     return (
         <Modal
-            title="Title"
+            title={title}
             visible={visible}
             onOk={() => {
                 form.validateFields()
@@ -41,6 +45,7 @@ const FormModal: React.FC<IProps> = ({
                 form={form}
                 layout="vertical"
                 name="form_in_modal"
+                initialValues={initialValues}
             >
                 {getContent()}
             </Form>

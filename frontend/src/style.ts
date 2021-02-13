@@ -55,5 +55,5 @@ export const GlobalStyle = createGlobalStyle`
 `
 
 export const ContentWrapper = styled.div`
-	padding: 24px 0;
+	padding-top: 24px;
 `

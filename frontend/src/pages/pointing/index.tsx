@@ -1,14 +1,12 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { io, Socket } from 'socket.io-client'
-import { Button, Col, Divider, List, Row, Space } from 'antd'
-import Title from 'antd/lib/typography/Title'
-import { PointingCard, ParticipantList, RadioGroup, RadioButton } from './style'
+import _ from 'lodash'
+import { Button, Col, Row } from 'antd'
 import { actionCreators } from './store'
-import Cards from './constants/cards'
 import PointingForm from '../../common/header/forms/pointingForm'
 import FormModal from '../../common/modal/FormModal'
-import { CheckCircleFilled, LoadingOutlined } from '@ant-design/icons'
+import { UserPane, PrimaryPane } from './components'
 
 
 const ENDPOINT = 'http://localhost:4001'
@@ -17,6 +15,7 @@ const Pointing = () => {
 
     const [visible, setVisible] = useState(true)
     const [loaded, setLoaded] = useState(false)
+    const [currentUser, setCurrentUser] = useState<any>({})
     const socket = useRef<Socket>()
 
     const { observers, players } = useSelector((state: any) => ({
@@ -25,14 +24,35 @@ const Pointing = () => {
     }))
     const dispatch = useDispatch()
 
-    const joinRoom = (values: any) => socket.current?.emit('join', {
-        roomId: values.roomId,
-        userId: '1',
-        userName: values.userName,
-        userType: 'player'
-    })
-    const changeUserType = (type: string) => socket.current?.emit('change_user_type', type)
-    const vote = (vote: number) => socket.current?.emit('vote', vote)
+    const joinRoom = (values: any) => {
+        const { roomId, userName, userType } = values
+        setCurrentUser({ ...currentUser, name: userName, type: userType, roomName: roomId })
+        socket.current?.emit('join', {
+            roomId: roomId,
+            userId: '1',
+            userName: userName,
+            userType: userType
+        })
+    }
+    const changeUserType = (type: string) => {
+        setCurrentUser({ ...currentUser, type })
+        socket.current?.emit('change_user_type', type)
+    }
+    const vote = (vote: number) => {
+        if (currentUser.type == 'player') {
+            socket.current?.emit('vote', vote)
+        }
+    }
+
+    const getResult = () => {
+        const playerList = players.toJS()
+        return _.chain(playerList)
+            .map(player => player.vote)
+            .filter(vote => !!vote)
+            .countBy()
+            .map((count, points) => ({ key: '' + points, points, count }))
+            .value()
+    }
 
     useEffect(() => {
         socket.current = io(ENDPOINT, {
@@ -48,73 +68,39 @@ const Pointing = () => {
     return (
         <Fragment>
             {loaded ? (
-                <Row>
-                    <Col span={6} offset={1}>
-                        <RadioGroup defaultValue='player' buttonStyle="solid" size="large">
-                            <RadioButton
-                                value="observer"
-                                onClick={() => { changeUserType('observer') }}
-                            >Observer
-                        </RadioButton>
-                            <RadioButton
-                                value="player"
-                                onClick={() => { changeUserType('player') }}
-                            >Player
-                        </RadioButton>
-                        </RadioGroup>
-                        <Divider />
-                        <Space direction='vertical' style={{ width: '100%' }}>
-                            <ParticipantList
-                                size="large"
-                                header={<Title level={4}>Observers</Title>}
-                                bordered
-                                locale={{ emptyText: ' ' }}
-                                dataSource={observers.toJS()}
-                                renderItem={(observer: any) =>
-                                    <List.Item className='align-center-flex'>{observer.name}</List.Item>
-                                }
+                <div>
+                    <Row gutter={32}>
+                        <Col span={6} offset={1}>
+                            <UserPane
+                                currentUser={currentUser}
+                                changeUserType={changeUserType}
+                                observers={observers}
+                                players={players}
                             />
-                            <ParticipantList
-                                size="large"
-                                header={<Title level={4}>Players</Title>}
-                                bordered
-                                locale={{ emptyText: ' ' }}
-                                dataSource={players.toJS()}
-                                renderItem={(player: any) =>
-                                    <List.Item className='align-center-flex'>
-                                        <Space>
-                                            <span>{player.name}</span>
-                                            {player.vote ? <CheckCircleFilled /> : <LoadingOutlined />}
-                                        </Space>
-                                    </List.Item>
-                                }
+                        </Col>
+                        <Col span={16}>
+                            <PrimaryPane
+                                userType={currentUser.type}
+                                clearVotes={() => socket.current?.emit('clear_votes')}
+                                vote={value => vote(value)}
+                                data={getResult()}
                             />
-                        </Space>
-                    </Col>
-                    <Col span={16} offset={1}>
-                        <Space size={[16, 16]} wrap>
-                            {Cards.map(card => (
-                                <PointingCard
-                                    key={card.id}
-                                    hoverable
-                                    bordered={false}
-                                    className='align-center-flex'
-                                    onClick={() => {vote(card.value)}}
-                                >
-                                    <Title>{card.name}</Title>
-                                </PointingCard>
-                            ))}
-                        </Space>
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
+                </div>
             ) : (
-                <Button 
-                    type='primary' 
-                    onClick={() => { setVisible(true) }}
-                >Join Room
-                </Button>
-            )}
+                    <div className='align-center-flex'>
+                        <Button
+                            type='primary'
+                            shape='round'
+                            size='large'
+                            onClick={() => { setVisible(true) }}>Join Room
+                        </Button>
+                    </div>
+
+                )}
             <FormModal
+                title='Join Pointing Room'
                 visible={visible}
                 onSubmit={values => {
                     joinRoom(values)
@@ -123,6 +109,7 @@ const Pointing = () => {
                 }}
                 onCancel={() => setVisible(false)}
                 getContent={() => <PointingForm />}
+                initialValues={{ userType: 'player' }}
             />
         </Fragment>
     )

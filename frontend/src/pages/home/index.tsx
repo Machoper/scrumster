@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import Title from 'antd/lib/typography/Title'
 
 class Home extends Component {
     render() {
         return (
-            <div>Home~</div>
+            <Title className='align-center-flex'>Welcome to Murcs~</Title>
         )
     }
 }

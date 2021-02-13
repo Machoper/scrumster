@@ -13,6 +13,7 @@
     "@types/react-dom": "^17.0.0",
     "antd": "^4.12.2",
     "immutable": "^4.0.0-rc.12",
+    "lodash": "^4.17.20",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.168",
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-immutable": "^4.0.1",
