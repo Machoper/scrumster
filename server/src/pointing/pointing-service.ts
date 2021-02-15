@@ -45,7 +45,7 @@ export default class PointingService {
         }
         socket.join(roomId)
         socket.roomId = roomId
-        let newUser = new PointingUser(userId, userName, userType)
+        let newUser = new PointingUser(userName, userType)
         socket.user = newUser
         this.roomManager.removeUser(newUser)
         let room = this.roomManager.getRoom(roomId)
@@ -80,7 +80,6 @@ export default class PointingService {
     }
 
     private changeUserType(socket: IPointingSocket, type: PointingUserType) {
-        console.log(socket.roomId)
         const {roomId, user} = socket
         if (roomId) {
             const room = this.roomManager.getRoom(roomId)

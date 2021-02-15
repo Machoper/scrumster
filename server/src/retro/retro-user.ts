@@ -1,18 +1,16 @@
 import { generateUid } from "../common/utils"
 
-export enum PointingUserType {
+export enum RetroUserType {
     PLAYER = 'player',
     OBSERVER = 'observer'
 }
 
-export default class PointingUser {
+export default class RetroUser {
     id: string
     name: string
-    type: PointingUserType
-    vote?: number
+    type: RetroUserType
 
-    constructor(name: string, type: PointingUserType) {
-        // this.id = id
+    constructor(name: string, type: RetroUserType) {
         this.id = generateUid()
         this.name = name
         this.type = type
