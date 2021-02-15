@@ -2,8 +2,10 @@
   "name": "murcs",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "heroku-postbuild": "cd server && npx tsc && cd ../frontend && npm run build",
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

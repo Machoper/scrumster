@@ -9,12 +9,10 @@ const port = process.env.PORT || 4001
 
 const app = express()
 // app.use(cors())
-// app.use(express.static(path.resolve(path.join(__dirname, '../../frontend/public'))))
-// app.get('*', (req, res, next) => {
-//     res.sendFile(path.resolve(path.join(__dirname + '../../frontend/public/index.html')))
-// })
-// console.log(path.resolve(path.join(__dirname, '../../frontend/public')))
-// console.log(path.resolve(__dirname + '../../frontend/public/index.html'))
+app.use(express.static(path.resolve(__dirname, 'frontend')))
+app.get('*', (req, res, next) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'))
+})
 
 const server = http.createServer(app)
 
