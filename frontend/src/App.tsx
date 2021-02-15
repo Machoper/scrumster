@@ -5,7 +5,7 @@ import store from './store';
 import MurcsHeader from './common/header';
 import { Home, Pointing, Retro } from './pages';
 import { ContentWrapper } from './style'
-import { Layout } from 'antd'
+import { BackTop, Layout } from 'antd'
 const { Header, Footer, Content } = Layout;
 
 function App() {
@@ -13,7 +13,13 @@ function App() {
 		<Provider store={store}>
 			<BrowserRouter>
 				<Layout style={{ overflow: 'auto' }}>
-					<Header style={{ position: 'fixed', zIndex: 1, width: '100%', background: '#000' }}>
+					<Header style={{ 
+						position: 'fixed', 
+						zIndex: 1, 
+						width: '100%', 
+						background: '#000', 
+						boxShadow: '0px 3px 4px 1px #78797b' 
+					}}>
 						<MurcsHeader />
 					</Header>
 					<Layout style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
@@ -29,6 +35,7 @@ function App() {
 						>Murcs ©2021 Created by Yixuan Qian
 						</Footer>
 					</Layout>
+					<BackTop />
 				</Layout>
 			</BrowserRouter>
 		</Provider>
