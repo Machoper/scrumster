@@ -1,8 +1,8 @@
 import { CheckCircleFilled, LinkOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Button, Divider, List, message, PageHeader, Space } from 'antd'
+import { Button, Collapse, Divider, List, message, PageHeader, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import React, { Fragment } from 'react'
-import { ParticipantList, RadioButton, RadioGroup } from '../style'
+import { ParticipantList, RadioButton, RadioGroup } from '../../style'
 
 
 interface IProps {
@@ -32,7 +32,7 @@ const UserPane: React.FC<IProps> = ({
                     />
                 }
             />
-            <RadioGroup defaultValue={currentUser.type} buttonStyle="solid" size="large">
+            <RadioGroup defaultValue={currentUser.type} buttonStyle='solid'>
                 <RadioButton
                     value="observer"
                     onClick={() => { changeUserType('observer') }}
@@ -45,33 +45,33 @@ const UserPane: React.FC<IProps> = ({
                 </RadioButton>
             </RadioGroup>
             <Divider />
-            <Space direction='vertical' style={{ width: '100%' }}>
-                <ParticipantList
-                    size="large"
-                    header={<Title level={4}>Observers</Title>}
-                    bordered
-                    locale={{ emptyText: ' ' }}
-                    dataSource={observers.toJS()}
-                    renderItem={(observer: any) =>
-                        <List.Item className='align-center-flex'>{observer.name}</List.Item>
-                    }
-                />
-                <ParticipantList
-                    size="large"
-                    header={<Title level={4}>Players</Title>}
-                    bordered
-                    locale={{ emptyText: ' ' }}
-                    dataSource={players.toJS()}
-                    renderItem={(player: any) =>
-                        <List.Item className='align-center-flex'>
-                            <Space>
-                                <span>{player.name}</span>
-                                {player.vote ? <CheckCircleFilled /> : <LoadingOutlined />}
-                            </Space>
-                        </List.Item>
-                    }
-                />
-            </Space>
+            <Collapse defaultActiveKey={['observers', 'players']}>
+                <Collapse.Panel header='Observers' key='observers'>
+                    <ParticipantList
+                        size="small"
+                        locale={{ emptyText: ' ' }}
+                        dataSource={observers.toJS()}
+                        renderItem={(observer: any) =>
+                            <List.Item className='align-center-flex'>{observer.name}</List.Item>
+                        }
+                    />
+                </Collapse.Panel>
+                <Collapse.Panel header='Players' key='players'>
+                    <ParticipantList
+                        size="small"
+                        locale={{ emptyText: ' ' }}
+                        dataSource={players.toJS()}
+                        renderItem={(player: any) =>
+                            <List.Item className='align-center-flex'>
+                                <Space>
+                                    <span>{player.name}</span>
+                                    {player.vote ? <CheckCircleFilled /> : <LoadingOutlined />}
+                                </Space>
+                            </List.Item>
+                        }
+                    />
+                </Collapse.Panel>
+            </Collapse>
         </Fragment>
     )
 }

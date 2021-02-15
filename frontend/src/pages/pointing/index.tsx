@@ -1,15 +1,13 @@
+import _ from 'lodash'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { io, Socket } from 'socket.io-client'
-import _ from 'lodash'
 import { Button, Col, Row } from 'antd'
 import { actionCreators } from './store'
-import PointingForm from '../../common/header/forms/pointingForm'
+import JoinRoomForm from '../../common/forms/JoinRoomForm'
 import FormModal from '../../common/modal/FormModal'
 import { UserPane, PrimaryPane } from './components'
 
-
-const ENDPOINT = 'http://localhost:4001'
 
 const Pointing = () => {
 
@@ -29,7 +27,6 @@ const Pointing = () => {
         setCurrentUser({ ...currentUser, name: userName, type: userType, roomName: roomId })
         socket.current?.emit('join', {
             roomId: roomId,
-            userId: '1',
             userName: userName,
             userType: userType
         })
@@ -55,39 +52,40 @@ const Pointing = () => {
     }
 
     useEffect(() => {
-        socket.current = io(ENDPOINT, {
+        socket.current = io(process.env.REACT_APP_API_ENDPOINT!, {
             transports: ['websocket'],
             path: '/pointing'
         })
         socket.current?.on('refresh', (data: any) => {
             dispatch(actionCreators.setUsers(data))
         })
+        if (!_.isEmpty(currentUser)) {
+			socket.current?.emit('join', {...currentUser})
+		}
         return () => { socket.current?.disconnect() }
     }, [])
 
     return (
         <Fragment>
             {loaded ? (
-                <div>
-                    <Row gutter={32}>
-                        <Col span={6} offset={1}>
-                            <UserPane
-                                currentUser={currentUser}
-                                changeUserType={changeUserType}
-                                observers={observers}
-                                players={players}
-                            />
-                        </Col>
-                        <Col span={16}>
-                            <PrimaryPane
-                                userType={currentUser.type}
-                                clearVotes={() => socket.current?.emit('clear_votes')}
-                                vote={value => vote(value)}
-                                data={getResult()}
-                            />
-                        </Col>
-                    </Row>
-                </div>
+                <Row gutter={32}>
+                    <Col span={6}>
+                        <UserPane
+                            currentUser={currentUser}
+                            changeUserType={changeUserType}
+                            observers={observers}
+                            players={players}
+                        />
+                    </Col>
+                    <Col span={18}>
+                        <PrimaryPane
+                            userType={currentUser.type}
+                            clearVotes={() => socket.current?.emit('clear_votes')}
+                            vote={value => vote(value)}
+                            data={getResult()}
+                        />
+                    </Col>
+                </Row>
             ) : (
                     <div className='align-center-flex'>
                         <Button
@@ -108,7 +106,7 @@ const Pointing = () => {
                     setLoaded(true)
                 }}
                 onCancel={() => setVisible(false)}
-                getContent={() => <PointingForm />}
+                getContent={() => <JoinRoomForm />}
                 initialValues={{ userType: 'player' }}
             />
         </Fragment>

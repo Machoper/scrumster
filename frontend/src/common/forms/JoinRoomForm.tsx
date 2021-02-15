@@ -1,7 +1,7 @@
-import { Form, FormInstance, Input, Radio } from 'antd'
+import { Form, Input, Radio } from 'antd'
 import React, { Fragment } from 'react'
 
-const PointingForm = () => {
+const JoinRoomForm = () => {
 
     return (
         <Fragment>
@@ -29,4 +29,4 @@ const PointingForm = () => {
     )
 }
 
-export default PointingForm
+export default JoinRoomForm
