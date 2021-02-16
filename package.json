@@ -10,7 +10,7 @@
   "scripts": {
     "postinstall": "cd server && npm install && cd ../frontend && npm install",
     "heroku-postbuild": "cd server && npx tsc && cd ../frontend && npm run build",
-    "start": "node dist/server.js",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -19,6 +19,11 @@
     "socket.io": "^3.1.1",
     "uuid": "^8.3.2"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "server/node_modules",
+    "frontend/node_modules"
+  ],
   "keywords": [],
   "author": "Yixuan Qian <qianyixuaneric@gmail.com> (http://yixuanqian.com/)",
   "license": "MIT"
