@@ -7,7 +7,7 @@ const JoinRoomForm = () => {
         <Fragment>
             <Form.Item
                 label="Room Name"
-                name="roomId"
+                name="roomName"
                 rules={[{ required: true, message: 'Please input room name!' }]}
             >
                 <Input />

@@ -1,5 +1,6 @@
 import http from 'http'
 import socketio from 'socket.io'
+import { generateRoomId } from '../common/utils'
 import PointingRoomManager from './pointing-room-manager'
 import PointingUser, { PointingUserType } from './pointing-user'
 
@@ -11,6 +12,7 @@ interface IPointingSocket extends socketio.Socket {
 
 interface IJoinProps {
     roomId: string
+    roomName?: string
     userId: string
     userName: string
     userType: PointingUserType
@@ -38,17 +40,20 @@ export default class PointingService {
     }
 
     private joinRoom(socket: IPointingSocket, props: IJoinProps) {
-        const { roomId, userId, userName, userType } = props
-        console.log(userName + ' joined ' + roomId)
+        const { roomName, userName, userType } = props
+        const roomId = props.roomId || generateRoomId()
         if (socket.roomId) {
-            socket.leave(roomId)
+            socket.leave(socket.roomId)
+        }
+        let room = this.roomManager.getRoom(roomId, roomName)
+        if (!room) {
+            socket.emit('error', 'Room does not exist')
         }
         socket.join(roomId)
         socket.roomId = roomId
         let newUser = new PointingUser(userName, userType)
         socket.user = newUser
         this.roomManager.removeUser(newUser)
-        let room = this.roomManager.getRoom(roomId)
 
         if (userType === PointingUserType.PLAYER) {
             room.addPlayer(newUser)
@@ -57,8 +62,9 @@ export default class PointingService {
             room.addObserver(newUser)
         }
 
+        socket.emit('joined', { user: socket.user, room })
         this.refreshRoom(roomId)
-        console.log(socket.roomId + ', ' + socket.user)
+        console.log(userName + ' joined ' + roomId)
     }
 
     private vote(socket: IPointingSocket, vote: number) {

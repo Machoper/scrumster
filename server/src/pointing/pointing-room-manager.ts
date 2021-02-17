@@ -9,9 +9,9 @@ export default class PointingRoomManager {
         this.rooms = {}
     }
 
-    getRoom = (roomId: string) => {
-        if (!this.rooms[roomId]) {
-            this.rooms[roomId] = new PointingRoom(roomId)
+    getRoom = (roomId: string, roomName?: string) => {
+        if (!this.rooms[roomId] && roomName) {
+            this.rooms[roomId] = new PointingRoom(roomId, roomName)
         }
         return this.rooms[roomId]
     }

@@ -1,45 +1,52 @@
 import { CheckCircleFilled, LinkOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Button, Collapse, Divider, List, message, PageHeader, Space } from 'antd'
-import Title from 'antd/lib/typography/Title'
 import React, { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import { ParticipantList, RadioButton, RadioGroup } from '../../style'
 
 
 interface IProps {
-    currentUser: any
     changeUserType: (type: string) => void
-    observers: any
-    players: any
 }
 
 const UserPane: React.FC<IProps> = ({
-    currentUser,
-    changeUserType,
-    observers,
-    players
+    changeUserType
 }) => {
+
+    const { roomName, observers, players, currentUser } = useSelector((state: any) => ({
+        roomName: state.getIn(['pointing', 'roomName']),
+        players: state.getIn(['pointing', 'players']).toJS(),
+        observers: state.getIn(['pointing', 'observers']).toJS(),
+        currentUser: state.getIn(['pointing', 'currentUser']).toJS()
+    }))
+
+    console.log(currentUser)
 
     return (
         <Fragment>
             <PageHeader
-                className="site-page-header"
-                title={currentUser.roomName}
+                title={roomName}
                 subTitle={
                     <Button
                         type='link' 
                         icon={<LinkOutlined />} 
-                        onClick={() => message.success('Room link copied')} 
+                        onClick={() => {
+                            navigator.clipboard.writeText(window.location.href); 
+                            message.success('Room link copied')
+                        }} 
                     />
                 }
             />
             <RadioGroup defaultValue={currentUser.type} buttonStyle='solid'>
                 <RadioButton
                     value="observer"
+                    checked={currentUser.type === 'observer'}
                     onClick={() => { changeUserType('observer') }}
                 >Observer
                 </RadioButton>
                 <RadioButton
                     value="player"
+                    checked={currentUser.type === 'player'}
                     onClick={() => { changeUserType('player') }}
                 >Player
                 </RadioButton>
@@ -50,7 +57,7 @@ const UserPane: React.FC<IProps> = ({
                     <ParticipantList
                         size="small"
                         locale={{ emptyText: ' ' }}
-                        dataSource={observers.toJS()}
+                        dataSource={observers}
                         renderItem={(observer: any) =>
                             <List.Item className='align-center-flex'>{observer.name}</List.Item>
                         }
@@ -60,7 +67,7 @@ const UserPane: React.FC<IProps> = ({
                     <ParticipantList
                         size="small"
                         locale={{ emptyText: ' ' }}
-                        dataSource={players.toJS()}
+                        dataSource={players}
                         renderItem={(player: any) =>
                             <List.Item className='align-center-flex'>
                                 <Space>

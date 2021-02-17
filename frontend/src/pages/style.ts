@@ -9,6 +9,6 @@ export const RadioGroup = styled(Radio.Group)`
     width: 100%;
     text-align: center;
 `
-export const RadioButton = styled(Radio.Button)`
+export const RadioButton: typeof Radio.Button = styled(Radio.Button)`
     width: 50%;
 `

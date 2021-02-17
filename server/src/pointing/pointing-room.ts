@@ -3,11 +3,13 @@ import PointingUser, { PointingUserType } from "./pointing-user"
 
 export default class PointingRoom {
     id: string
+    name: string
     players: PointingUser[]
     observers: PointingUser[]
 
-    constructor(id: string) {
+    constructor(id: string, name: string) {
         this.id = id
+        this.name = name
         this.players = []
         this.observers = []
     }

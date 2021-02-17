@@ -1,14 +1,14 @@
+import _ from 'lodash'
 import { Button, Divider, Space, Table } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import React, { Fragment, useState } from 'react'
+import { useSelector } from 'react-redux'
 import Cards from '../constants/cards'
 import { PointingCard } from '../style'
 
 interface IProps {
-    userType: string
     clearVotes: () => void
     vote: (value: number) => void
-    data: any[]
 }
 
 const columns = [
@@ -23,13 +23,25 @@ const columns = [
 ]
 
 const PrimaryPane: React.FC<IProps> = ({
-    userType,
     clearVotes,
-    vote,
-    data
+    vote
 }) => {
 
     const [showVotes, setShowVotes] = useState(false)
+
+    const { players, currentUser } = useSelector((state: any) => ({
+        players: state.getIn(['pointing', 'players']).toJS(),
+        currentUser: state.getIn(['pointing', 'currentUser']).toJS()
+    }))
+
+    const getResult = () => {
+        return _.chain(players)
+            .map(player => player.vote)
+            .filter(vote => !!vote)
+            .countBy()
+            .map((count, points) => ({ key: '' + points, points, count }))
+            .value()
+    }
 
     const getActionItems = () => {
         return (
@@ -54,7 +66,7 @@ const PrimaryPane: React.FC<IProps> = ({
     }
 
     const getContent = () => {
-        if (userType == 'player' && !showVotes) {
+        if (currentUser.type == 'player' && !showVotes) {
             return (
                 <Space size={[16, 16]} wrap>
                     {Cards.map(card => (
@@ -71,7 +83,7 @@ const PrimaryPane: React.FC<IProps> = ({
                 </Space>
             )
         }
-        return (<Table pagination={false} columns={columns} dataSource={data}></Table>)
+        return (<Table pagination={false} columns={columns} dataSource={getResult()}></Table>)
     }
 
     return (
