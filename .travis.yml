@@ -1,0 +1,16 @@
+branches:
+  only:
+  - master
+  - develop
+cache:
+  directories:
+    - ./node_modules
+    - ./frontend/node_modules
+    - ./server/node_modules
+install:
+  - npm install
+script:
+  - npm run build-dev
+  - npm test
+language: node_js
+node_js: 12
