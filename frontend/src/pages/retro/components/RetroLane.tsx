@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { Comment } from 'antd'
 import RetroEditor from './RetroEditor'
 import RetroItemList from './RetroItemList'
+import { useSelector } from 'react-redux'
 
 
 interface IProps {
@@ -20,6 +21,8 @@ const RetroLane: React.FC<IProps> = ({
 
     const [submitting, setSubmitting] = useState(false)
     const [value, setValue] = useState('')
+
+    const viewMode = useSelector((state: any) => state.getIn(['retro', 'viewMode']))
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setValue(e.target.value)
@@ -43,7 +46,7 @@ const RetroLane: React.FC<IProps> = ({
 
     return (
         <Fragment>
-            <Comment
+            {!viewMode && <Comment
                 content={
                     <RetroEditor
                         onChange={handleChange}
@@ -52,7 +55,7 @@ const RetroLane: React.FC<IProps> = ({
                         value={value}
                     />
                 }
-            />
+            />}
             {items.length > 0 && <RetroItemList items={items} removeItem={removeItem} />}
         </Fragment>
     )

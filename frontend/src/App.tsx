@@ -23,10 +23,11 @@ function App() {
 						<MurcsHeader />
 					</Header>
 					<Layout style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
-						<Content >
+						<Content>
 							<ContentWrapper>
 								<Route path='/' exact component={Home}></Route>
 								<Route path='/pointing' exact component={Pointing}></Route>
+								<Route path='/pointing/:roomId' component={Pointing}></Route>
 								<Route path='/retro' exact component={Retro}></Route>
 							</ContentWrapper>
 						</Content>

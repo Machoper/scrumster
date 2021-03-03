@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 import _ from 'lodash'
 import { Button, Col, Row } from 'antd'
-import JoinRoomForm from '../../common/forms/JoinRoomForm'
+import RoomForm from '../../common/forms/RoomForm'
 import FormModal from '../../common/modal/FormModal'
 import UserPane from './components/UserPane'
 import PrimaryPane from './components/PrimaryPane'
@@ -81,7 +81,7 @@ const Retro = () => {
                     setLoaded(true)
                 }}
                 onCancel={() => setVisible(false)}
-                getContent={() => <JoinRoomForm />}
+                getContent={() => <RoomForm />}
                 initialValues={{ userType: 'player' }}
             />
         </Fragment>

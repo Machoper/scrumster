@@ -48,6 +48,7 @@ export default class PointingService {
         let room = this.roomManager.getRoom(roomId, roomName)
         if (!room) {
             socket.emit('error', 'Room does not exist')
+            return
         }
         socket.join(roomId)
         socket.roomId = roomId

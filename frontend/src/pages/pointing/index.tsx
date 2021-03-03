@@ -2,26 +2,34 @@ import _ from 'lodash'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { io, Socket } from 'socket.io-client'
-import { Button, Col, Row } from 'antd'
+import { Col, message, Row } from 'antd'
 import { actionCreators } from './store'
-import JoinRoomForm from '../../common/forms/JoinRoomForm'
+import RoomForm from '../../common/forms/RoomForm'
 import FormModal from '../../common/modal/FormModal'
 import { UserPane, PrimaryPane } from './components'
+import { useParams } from 'react-router-dom'
+import { RoomFormType } from '../../common/forms/RoomFormType.enum'
+import Lobby from '../../common/lobby'
 
 
 const Pointing = () => {
 
-    const [visible, setVisible] = useState(true)
+    const { roomId } = useParams<{ roomId: string }>()
+
+    const [visible, setVisible] = useState(!!roomId)
+    const [formType, setFormType] = useState(RoomFormType.JOIN_ROOM_AUTO)
+
     const socket = useRef<Socket>()
 
-    const currentUser = useSelector((state: any) => 
-        state.getIn(['pointing', 'currentUser']).toJS()
-    )
+    const { currentUser } = useSelector((state: any) => ({
+        currentUser: state.getIn(['pointing', 'currentUser']).toJS()
+    }))
 
     const dispatch = useDispatch()
 
     const joinRoom = (values: any) => {
-        socket.current?.emit('join', { ...values })
+        const rid = formType === RoomFormType.CREATE_ROOM ? undefined : values.roomId || roomId
+        socket.current?.emit('join', { ...values, roomId: rid })
     }
     const changeUserType = (type: string) => {
         socket.current?.emit('change_user_type', type)
@@ -40,13 +48,14 @@ const Pointing = () => {
         })
         socket.current?.on('refresh', (data: any) => {
             dispatch(actionCreators.updateRoom(data))
-        }).on('joined', ({user, room}: any) => {
+        }).on('joined', ({ user, room }: any) => {
             dispatch(actionCreators.updateCurrentUser(user))
             dispatch(actionCreators.setRoomInfo(room))
-        })
-        if (!_.isEmpty(currentUser)) {
-			socket.current?.emit('join', {...currentUser})
-		}
+            window.history.replaceState(null, '', `/pointing/${room.id}`)
+        }).on('error', (msg: string) => message.error(msg))
+        // if (!_.isEmpty(currentUser)) {
+        // 	socket.current?.emit('join', {...currentUser})
+        // }
         return () => {
             socket.current?.disconnect()
             dispatch(actionCreators.cleanUp())
@@ -70,15 +79,16 @@ const Pointing = () => {
                     </Col>
                 </Row>
             ) : (
-                    <div className='align-center-flex'>
-                        <Button
-                            type='primary'
-                            shape='round'
-                            size='large'
-                            onClick={() => { setVisible(true) }}>Join Room
-                        </Button>
-                    </div>
-
+                    <Lobby
+                        onCreateRoom={() => {
+                            setFormType(RoomFormType.CREATE_ROOM)
+                            setVisible(true)
+                        }}
+                        onJoinRoom={() => {
+                            setFormType(RoomFormType.JOIN_ROOM)
+                            setVisible(true)
+                        }}
+                    />
                 )}
             <FormModal
                 title='Join Pointing Room'
@@ -88,7 +98,7 @@ const Pointing = () => {
                     setVisible(false)
                 }}
                 onCancel={() => setVisible(false)}
-                getContent={() => <JoinRoomForm />}
+                getContent={() => <RoomForm formType={formType} />}
                 initialValues={{ userType: 'player' }}
             />
         </Fragment>

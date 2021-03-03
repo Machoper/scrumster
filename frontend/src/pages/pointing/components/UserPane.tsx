@@ -20,8 +20,6 @@ const UserPane: React.FC<IProps> = ({
         currentUser: state.getIn(['pointing', 'currentUser']).toJS()
     }))
 
-    console.log(currentUser)
-
     return (
         <Fragment>
             <PageHeader
