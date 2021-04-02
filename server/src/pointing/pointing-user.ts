@@ -5,11 +5,13 @@ export enum PointingUserType {
     OBSERVER = 'observer'
 }
 
+export type Vote = number | string | undefined
+
 export default class PointingUser {
     id: string
     name: string
     type: PointingUserType
-    vote?: number
+    vote?: Vote
 
     constructor(name: string, type: PointingUserType) {
         // this.id = id

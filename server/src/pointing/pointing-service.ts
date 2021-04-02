@@ -2,7 +2,7 @@ import http from 'http'
 import socketio from 'socket.io'
 import { generateRoomId } from '../common/utils'
 import PointingRoomManager from './pointing-room-manager'
-import PointingUser, { PointingUserType } from './pointing-user'
+import PointingUser, { PointingUserType, Vote } from './pointing-user'
 
 
 interface IPointingSocket extends socketio.Socket {
@@ -68,7 +68,7 @@ export default class PointingService {
         console.log(userName + ' joined ' + roomId)
     }
 
-    private vote(socket: IPointingSocket, vote: number) {
+    private vote(socket: IPointingSocket, vote: Vote) {
         const { roomId, user } = socket
         if (roomId) {
             const room = this.roomManager.getRoom(roomId)

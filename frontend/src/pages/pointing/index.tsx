@@ -12,6 +12,8 @@ import { RoomFormType } from '../../common/forms/RoomFormType.enum'
 import Lobby from '../../common/lobby'
 
 
+export type Vote = number | string | undefined
+
 const Pointing = () => {
 
     const { roomId } = useParams<{ roomId: string }>()
@@ -35,7 +37,7 @@ const Pointing = () => {
         socket.current?.emit('change_user_type', type)
         dispatch(actionCreators.updateCurrentUser({ ...currentUser, type }))
     }
-    const vote = (vote: number) => {
+    const vote = (vote: Vote) => {
         if (currentUser.type == 'player') {
             socket.current?.emit('vote', vote)
         }

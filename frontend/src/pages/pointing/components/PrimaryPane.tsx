@@ -1,26 +1,17 @@
 import _ from 'lodash'
-import { Button, Divider, Space, Table } from 'antd'
+import { Button, Divider, Progress, Space, Table } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import React, { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Cards from '../constants/cards'
 import { PointingCard } from '../style'
+import { Vote } from '..'
+import PointingResult from './PointingResult'
 
 interface IProps {
     clearVotes: () => void
-    vote: (value: number) => void
+    vote: (value: Vote) => void
 }
-
-const columns = [
-    {
-        title: 'Points',
-        dataIndex: 'points',
-    },
-    {
-        title: 'Count',
-        dataIndex: 'count',
-    }
-]
 
 const PrimaryPane: React.FC<IProps> = ({
     clearVotes,
@@ -34,13 +25,16 @@ const PrimaryPane: React.FC<IProps> = ({
         currentUser: state.getIn(['pointing', 'currentUser']).toJS()
     }))
 
-    const getResult = () => {
-        return _.chain(players)
-            .map(player => player.vote)
-            .filter(vote => !!vote)
-            .countBy()
-            .map((count, points) => ({ key: '' + points, points, count }))
-            .value()
+    const isAllVoted = () => {
+        return !_.some(players, player => !player.vote)
+    }
+
+    const getVotedPercent = (): number => {
+        if (_.isEmpty(players)) {
+            return 0
+        }
+        const voted = _.filter(players, player => !!player.vote)
+        return voted.length / players.length
     }
 
     const getActionItems = () => {
@@ -66,30 +60,40 @@ const PrimaryPane: React.FC<IProps> = ({
     }
 
     const getContent = () => {
-        if (currentUser.type == 'player' && !showVotes) {
+        if (currentUser.type == 'player') {
+            return isAllVoted()
+                ? (<PointingResult />)
+                : (
+                    <Space size={[16, 16]} wrap>
+                        {Cards.map(card => (
+                            <PointingCard
+                                key={card.id}
+                                hoverable
+                                bordered={false}
+                                className='align-center-flex'
+                                onClick={() => { vote(card.value) }}
+                            >
+                                <Title>{card.name}</Title>
+                            </PointingCard>
+                        ))}
+                    </Space>
+                )
+        } else {
             return (
-                <Space size={[16, 16]} wrap>
-                    {Cards.map(card => (
-                        <PointingCard
-                            key={card.id}
-                            hoverable
-                            bordered={false}
-                            className='align-center-flex'
-                            onClick={() => { vote(card.value) }}
-                        >
-                            <Title>{card.name}</Title>
-                        </PointingCard>
-                    ))}
-                </Space>
+                <Fragment> 
+                    {getActionItems()}
+                    <Divider />
+                    {isAllVoted()
+                        // ? (<PointingResult />)
+                        ? (<Progress type="circle" percent={getVotedPercent()} />)
+                        : (<Progress type="circle" percent={getVotedPercent()} />)}
+                </Fragment>
             )
         }
-        return (<Table pagination={false} columns={columns} dataSource={getResult()}></Table>)
     }
 
     return (
         <Fragment>
-            {getActionItems()}
-            <Divider />
             {getContent()}
         </Fragment>
     )

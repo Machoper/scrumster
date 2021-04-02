@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import PointingUser, { PointingUserType } from "./pointing-user"
+import PointingUser, { PointingUserType, Vote } from "./pointing-user"
 
 export default class PointingRoom {
     id: string
@@ -35,7 +35,7 @@ export default class PointingRoom {
         }
     }
 
-    updateVote = (user: PointingUser, vote: number) => {
+    updateVote = (user: PointingUser, vote: Vote) => {
         const player = _.find(this.players, { id: user.id })
         if (player) {
             player.vote = vote

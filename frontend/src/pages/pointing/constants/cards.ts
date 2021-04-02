@@ -1,7 +1,7 @@
 interface ICard {
     id: string
     name: string
-    value: number
+    value: number | string
 }
 
 const Cards: ICard[] = [
@@ -13,8 +13,8 @@ const Cards: ICard[] = [
     {id: 'pc8', name: '8', value: 8},
     {id: 'pc13', name: '13', value: 13},
     {id: 'pc100', name: '100', value: 100},
-    {id: 'pcq', name: '?', value: 0},
-    {id: 'pcinf', name: '∞', value: Infinity}
+    {id: 'pcinf', name: '∞', value: '∞'},
+    {id: 'pcq', name: '?', value: '?'}
 ]
 
 export default Cards

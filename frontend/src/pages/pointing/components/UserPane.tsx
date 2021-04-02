@@ -1,5 +1,5 @@
 import { CheckCircleFilled, LinkOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Button, Collapse, Divider, List, message, PageHeader, Space } from 'antd'
+import { Badge, Button, Collapse, Divider, List, message, PageHeader, Space } from 'antd'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { ParticipantList, RadioButton, RadioGroup } from '../../style'
@@ -26,12 +26,12 @@ const UserPane: React.FC<IProps> = ({
                 title={roomName}
                 subTitle={
                     <Button
-                        type='link' 
-                        icon={<LinkOutlined />} 
+                        type='link'
+                        icon={<LinkOutlined />}
                         onClick={() => {
-                            navigator.clipboard.writeText(window.location.href); 
+                            navigator.clipboard.writeText(window.location.href);
                             message.success('Room link copied')
-                        }} 
+                        }}
                     />
                 }
             />
@@ -66,14 +66,27 @@ const UserPane: React.FC<IProps> = ({
                         size="small"
                         locale={{ emptyText: ' ' }}
                         dataSource={players}
-                        renderItem={(player: any) =>
-                            <List.Item className='align-center-flex'>
+                        renderItem={(player: any) => {
+                            const isCurrentUser = player.id === currentUser.id
+                            return <List.Item className='align-center-flex'>
                                 <Space>
-                                    <span>{player.name}</span>
-                                    {player.vote ? <CheckCircleFilled /> : <LoadingOutlined />}
+                                    {isCurrentUser 
+                                        ? <b>{player.name}</b> 
+                                        : <span>{player.name}</span>
+                                    }
+                                    {player.vote
+                                        ? isCurrentUser
+                                            ? <Badge
+                                                count={player.vote}
+                                                overflowCount={100}
+                                                style={{ backgroundColor: 'black' }}
+                                            />
+                                            : <CheckCircleFilled />
+                                        : null
+                                    }
                                 </Space>
                             </List.Item>
-                        }
+                        }}
                     />
                 </Collapse.Panel>
             </Collapse>
