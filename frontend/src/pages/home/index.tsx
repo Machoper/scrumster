@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import Title from 'antd/lib/typography/Title'
+import React from "react";
+import Title from "antd/lib/typography/Title";
 
-class Home extends Component {
-    render() {
-        return (
-            <Title className='align-center-flex'>Welcome to Murcs~</Title>
-        )
-    }
-}
+const Home: React.FC = () => {
+  return (
+    <div className="align-center-flex container">
+      <Title className="">Welcome to Murcs~</Title>
+    </div>
+  );
+};
 
-export default Home
+export default Home;

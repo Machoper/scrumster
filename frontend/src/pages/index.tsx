@@ -1,5 +1,7 @@
-import Home from './home'
-import Pointing from './pointing'
-import Retro from './retro'
+import Home from "./home";
+import Login from "./login";
+import Register from "./register";
+import Pointing from "./pointing";
+import Retro from "./retro";
 
-export { Home, Pointing, Retro }
+export { Home, Login, Register, Pointing, Retro };

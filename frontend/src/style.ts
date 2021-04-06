@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
 
 export const GlobalStyle = createGlobalStyle`
@@ -52,8 +52,20 @@ export const GlobalStyle = createGlobalStyle`
 		justify-content: center;
 		align-items: center;
 	}
-`
+	.container {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* antd overwrites */
+	.ant-spin-dot-item {
+		background-color: black;
+	}
+`;
 
 export const ContentWrapper = styled.div`
-	padding: 16px;
-`
+  padding: 16px;
+`;

@@ -1,15 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { GlobalStyle } from './style';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { GlobalStyle } from "./style";
+import reportWebVitals from "./reportWebVitals";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { client } from "./client";
+
+const apolloClient = client as any;
 
 ReactDOM.render(
-	<React.Fragment>
-		<GlobalStyle />
-		<App />
-	</React.Fragment>,
-	document.getElementById('root')
+  <React.Fragment>
+    <GlobalStyle />
+    <ApolloProvider client={apolloClient}>
+      <App />
+    </ApolloProvider>
+  </React.Fragment>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
