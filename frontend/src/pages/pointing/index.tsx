@@ -67,7 +67,7 @@ const Pointing = () => {
     return (
         <Fragment>
             {currentUser.id ? (
-                <Row gutter={32}>
+                <Row gutter={32} className="animate__animated animate__fadeIn">
                     <Col span={6}>
                         <UserPane
                             changeUserType={changeUserType}

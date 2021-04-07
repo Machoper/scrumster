@@ -9,6 +9,7 @@ interface IProps {
     items: any[]
     addItem: (item: any) => void
     removeItem: (itemId: string) => void
+    toggleLike: (itemId: string) => void
 }
 
 const LANES = [
@@ -29,7 +30,8 @@ const LANES = [
 const PrimaryPane: React.FC<IProps> = ({
     items,
     addItem,
-    removeItem
+    removeItem,
+    toggleLike
 }) => {
 
     const getItemsByType = (type: string) => {
@@ -46,6 +48,7 @@ const PrimaryPane: React.FC<IProps> = ({
                         items={getItemsByType(lane.type)}
                         addItem={addItem}
                         removeItem={removeItem}
+                        toggleLike={toggleLike}
                     />
                 </Col>
             )}

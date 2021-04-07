@@ -10,13 +10,15 @@ interface IProps {
     items: any[]
     addItem: (item: any) => void
     removeItem: (itemId: string) => void
+    toggleLike: (itemId: string) => void
 }
 
 const RetroLane: React.FC<IProps> = ({
     type,
     items,
     addItem,
-    removeItem
+    removeItem,
+    toggleLike
 }) => {
 
     const [submitting, setSubmitting] = useState(false)
@@ -56,7 +58,7 @@ const RetroLane: React.FC<IProps> = ({
                     />
                 }
             />}
-            {items.length > 0 && <RetroItemList items={items} removeItem={removeItem} />}
+            {items.length > 0 && <RetroItemList items={items} removeItem={removeItem} addItem={addItem} toggleLike={toggleLike} />}
         </Fragment>
     )
 }

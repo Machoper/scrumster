@@ -1,7 +1,7 @@
 import http from "http";
 import socketio from "socket.io";
 import { generateRoomId, generateUid } from "../common/utils";
-import RetroItem from "./retro-item";
+import RetroItem, { IRetroItemProps } from "./retro-item";
 import RetroRoomManager from "./retro-room-manager";
 import RetroUser, { RetroUserType } from "./retro-user";
 
@@ -74,7 +74,7 @@ export default class RetroService {
     }
   }
 
-  private addItem(socket: IRetroSocket, props: any) {
+  private addItem(socket: IRetroSocket, props: IRetroItemProps) {
     const { roomId, user } = socket;
     if (roomId) {
       const room = this.roomManager.getRoom(roomId);

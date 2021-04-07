@@ -1,6 +1,12 @@
 import { generateUid } from "../common/utils"
 import RetroUser from "./retro-user"
 
+export interface IRetroItemProps {
+    id?: string;
+    type: string;
+    content: string;
+  }
+
 export default class RetroItem {
 	id: string
 	type: string
@@ -11,8 +17,8 @@ export default class RetroItem {
 	authorName: string
     likes: string[]
     
-    constructor(props: {type: string, content: string}, author: RetroUser) {
-        this.id = generateUid()
+    constructor(props: IRetroItemProps, author: RetroUser) {
+        this.id = props.id || generateUid()
         this.type = props.type
         this.content = props.content
         this.read = false

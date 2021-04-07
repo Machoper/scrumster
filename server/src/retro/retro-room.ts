@@ -58,8 +58,9 @@ export default class RetroRoom {
   toggleLike(itemId: string, userId: string): void {
     const presentItem = this.findItem(itemId);
     if (presentItem) {
+      console.log(presentItem.likes, userId);
       if (_.includes(presentItem.likes, userId)) {
-        _.remove(presentItem.likes, userId);
+        _.remove(presentItem.likes, id => id === userId);
       } else {
         presentItem.likes.push(userId);
       }

@@ -61,7 +61,7 @@ const Retro = () => {
     return (
         <Fragment>
             {currentUser.id ? (
-                <Row gutter={32}>
+                <Row gutter={32} className="animate__animated animate__fadeIn">
                     <Col span={6}>
                         <UserPane
 							users={users}
@@ -71,7 +71,8 @@ const Retro = () => {
 						<PrimaryPane
 							items={items} 
 							addItem={item => socket.current?.emit('item:add', item)}
-							removeItem={itemId => socket.current?.emit('item:remove', itemId)}
+                            removeItem={itemId => socket.current?.emit('item:remove', itemId)}
+                            toggleLike={itemId => socket.current?.emit('item:toggle_like', itemId)}
 						/>
                     </Col>
                 </Row>
