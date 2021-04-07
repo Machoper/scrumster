@@ -16,11 +16,18 @@ const App: React.FC = () => {
     fetch(`refresh_token`, {
       method: "POST",
       credentials: "include"
-    }).then(async res => {
-      const { accessToken } = await res.json();
-      setAccessToken(accessToken);
-      setLoading(false);
-    });
+    }).then(
+      async res => {
+        const { accessToken } = await res.json();
+        setAccessToken(accessToken);
+        setLoading(false);
+      },
+      err => {
+        setAccessToken("");
+        setLoading(false);
+        console.log(err);
+      }
+    );
   }, []);
 
   if (loading) {
@@ -58,7 +65,7 @@ const App: React.FC = () => {
               </ContentWrapper>
             </Content>
             <Footer style={{ textAlign: "center", width: "100%" }}>
-              Murcs ©2021 Created by Yixuan Qian
+              ©2021 Created by Yixuan Qian
             </Footer>
           </Layout>
           <BackTop />

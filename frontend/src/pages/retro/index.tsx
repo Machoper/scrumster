@@ -1,32 +1,40 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 import _ from 'lodash'
-import { Button, Col, Row } from 'antd'
+import { Col, message, Row } from 'antd'
 import RoomForm from '../../common/forms/RoomForm'
 import FormModal from '../../common/modal/FormModal'
 import UserPane from './components/UserPane'
 import PrimaryPane from './components/PrimaryPane'
+import { RoomFormType } from '../../common/forms/RoomFormType.enum'
+import Lobby from '../../common/lobby'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { actionCreators } from './store'
 
 
 const Retro = () => {
 
-    const [visible, setVisible] = useState(true)
-    const [loaded, setLoaded] = useState(false)
+    const { roomId } = useParams<{ roomId: string }>()
+
+    const [visible, setVisible] = useState(!!roomId)
+    const [formType, setFormType] = useState(RoomFormType.JOIN_ROOM_AUTO)
+
     const [users, setUsers] = useState([])
-	const [currentUser, setCurrentUser] = useState<any>({})
     const [items, setItems] = useState([])
 
     const socket = useRef<Socket>()
 
+    const { currentUser } = useSelector((state: any) => ({
+        currentUser: state.getIn(['retro', 'currentUser']).toJS()
+    }))
+
+    const dispatch = useDispatch()
+
     const joinRoom = (values: any) => {
-        const { roomId, userName, userType } = values
-        setCurrentUser({ ...currentUser, name: userName, type: userType, roomName: roomId })
-        socket.current?.emit('join', {
-            roomId: roomId,
-            userName: userName,
-            userType: userType
-        })
-	}
+        const rid = formType === RoomFormType.CREATE_ROOM ? undefined : values.roomId || roomId
+        socket.current?.emit('join', { ...values, roomId: rid })
+    }
 
     useEffect(() => {
         socket.current = io(process.env.REACT_APP_API_ENDPOINT!, {
@@ -34,22 +42,28 @@ const Retro = () => {
             path: '/retro'
         })
         socket.current?.on('refresh', (data: any) => {
-			setUsers(data.users)
+            setUsers(data.users)
             setItems(data.items)
-		})
-		if (!_.isEmpty(currentUser)) {
-			socket.current?.emit('join', {...currentUser})
-		}
-        return () => { socket.current?.disconnect() }
+        }).on('joined', ({ user, room }: any) => {
+            dispatch(actionCreators.updateCurrentUser(user))
+            dispatch(actionCreators.setRoomInfo(room))
+            window.history.replaceState(null, '', `/retro/${room.id}`)
+        }).on('error', (msg: string) => message.error(msg))
+        // if (!_.isEmpty(currentUser)) {
+        // 	socket.current?.emit('join', {...currentUser})
+        // }
+        return () => {
+            socket.current?.disconnect()
+            dispatch(actionCreators.cleanUp())
+        }
     }, [])
 
     return (
         <Fragment>
-            {loaded ? (
+            {currentUser.id ? (
                 <Row gutter={32}>
                     <Col span={6}>
                         <UserPane
-							currentUser={currentUser}
 							users={users}
                         />
                     </Col>
@@ -62,26 +76,26 @@ const Retro = () => {
                     </Col>
                 </Row>
             ) : (
-                    <div className='align-center-flex'>
-                        <Button
-                            type='primary'
-                            shape='round'
-                            size='large'
-                            onClick={() => { setVisible(true) }}>Join Room
-                        </Button>
-                    </div>
-
+                    <Lobby
+                        onCreateRoom={() => {
+                            setFormType(RoomFormType.CREATE_ROOM)
+                            setVisible(true)
+                        }}
+                        onJoinRoom={() => {
+                            setFormType(RoomFormType.JOIN_ROOM)
+                            setVisible(true)
+                        }}
+                    />
                 )}
             <FormModal
-                title='Join Retro Room'
+                title='Join Retrospective Room'
                 visible={visible}
                 onSubmit={values => {
                     joinRoom(values)
                     setVisible(false)
-                    setLoaded(true)
                 }}
                 onCancel={() => setVisible(false)}
-                getContent={() => <RoomForm />}
+                getContent={() => <RoomForm formType={formType} />}
                 initialValues={{ userType: 'player' }}
             />
         </Fragment>
