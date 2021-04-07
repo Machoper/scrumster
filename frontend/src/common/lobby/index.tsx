@@ -17,7 +17,7 @@ const Lobby: React.FC<IProps> = ({ onCreateRoom, onJoinRoom }) => {
           <ActionCard
             hoverable
             bordered={true}
-            className="align-center-flex"
+            className="align-center-flex animate__animated animate__fadeInLeft"
             style={{ float: "right" }}
             onClick={onCreateRoom}
           >
@@ -33,7 +33,7 @@ const Lobby: React.FC<IProps> = ({ onCreateRoom, onJoinRoom }) => {
           <ActionCard
             hoverable
             bordered={true}
-            className="align-center-flex"
+            className="align-center-flex animate__animated animate__fadeInRight"
             onClick={onJoinRoom}
           >
             <div style={{ textAlign: "center" }}>

@@ -46,14 +46,14 @@ const Register: React.FC<RouteComponentProps> = ({ history }) => {
 
   return (
     <div className="align-center-flex container">
-      <Card
+      <Card className="animate__animated animate__fadeIn"
         title={
           <Title level={2} className="align-center-flex">
             Register
           </Title>
         }
         style={{
-          minWidth: 500,
+          minWidth: 550,
           boxShadow: "0px 0px 20px 5px #78797b"
         }}
       >

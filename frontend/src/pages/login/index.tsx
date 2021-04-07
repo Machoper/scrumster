@@ -1,5 +1,5 @@
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, message } from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -8,7 +8,9 @@ import { MeDocument, MeQuery, useLoginMutation } from "../../generated/graphql";
 
 const Login: React.FC<RouteComponentProps> = ({ history }) => {
   const [form] = Form.useForm();
-  const [login] = useLoginMutation();
+  const [login] = useLoginMutation({
+    onError: err => message.error(err.message)
+  });
 
   const tailFormItemLayout = {
     wrapperCol: {
@@ -46,14 +48,13 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
     if (response && response.data) {
       setAccessToken(response.data.login.accessToken);
+      history.push("/");
     }
-
-    history.push("/");
   };
 
   return (
     <div className="align-center-flex container">
-      <Card
+      <Card className="animate__animated animate__fadeIn"
         title={
           <Title level={2} className="align-center-flex">
             Login
