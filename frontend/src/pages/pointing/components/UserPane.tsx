@@ -1,18 +1,15 @@
 import { CheckCircleFilled } from "@ant-design/icons";
-import {
-  Badge,
-  Card,
-  Collapse,
-  Divider,
-  List,
-  message,
-  Space,
-} from "antd";
+import { Badge, Collapse, Divider, List, message, Space } from "antd";
 import Paragraph from "antd/lib/typography/Paragraph";
 import Title from "antd/lib/typography/Title";
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { ParticipantList, RadioButton, RadioGroup } from "../../style";
+import {
+  ParticipantList,
+  RadioButton,
+  RadioGroup,
+  RoomInfo
+} from "../../style";
 
 interface IProps {
   changeUserType: (type: string) => void;
@@ -30,14 +27,8 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
   );
 
   return (
-    <Fragment>
-      <Card
-        style={{
-          backgroundColor: "transparent",
-          boxShadow: "0px 0px 5px 2px #78797b",
-          borderRadius: 10
-        }}
-      >
+    <div>
+      <RoomInfo>
         <Title level={2}>{roomName}</Title>
         <Paragraph
           style={{ color: "grey" }}
@@ -51,7 +42,7 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
         >
           Room ID: {roomId}
         </Paragraph>
-      </Card>
+      </RoomInfo>
       <Divider />
       <RadioGroup defaultValue={currentUser.type} buttonStyle="solid">
         <RadioButton
@@ -80,11 +71,18 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
             size="small"
             locale={{ emptyText: " " }}
             dataSource={observers}
-            renderItem={(observer: any) => (
-              <List.Item className="align-center-flex">
-                {observer.name}
-              </List.Item>
-            )}
+            renderItem={(observer: any) => {
+              const isCurrentUser = observer.id === currentUser.id;
+              return (
+                <List.Item className="align-center-flex">
+                  {isCurrentUser ? (
+                    <b>{observer.name}</b>
+                  ) : (
+                    <span>{observer.name}</span>
+                  )}
+                </List.Item>
+              );
+            }}
           />
         </Collapse.Panel>
         <Collapse.Panel header="Players" key="players">
@@ -120,7 +118,7 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
           />
         </Collapse.Panel>
       </Collapse>
-    </Fragment>
+    </div>
   );
 };
 

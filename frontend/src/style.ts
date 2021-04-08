@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
+import Title from "antd/lib/typography/Title";
 
 export const GlobalStyle = createGlobalStyle`
 	html, body, div, span, applet, object, iframe,

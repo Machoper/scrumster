@@ -2,15 +2,46 @@ import _ from "lodash";
 import { Result, Table } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
+import { ColumnsType } from "antd/lib/table";
+import Title from "antd/lib/typography/Title";
 
-const columns = [
+const columns: ColumnsType<any> = [
   {
-    title: "Points",
-    dataIndex: "points"
+    title: (
+      <Title level={3} style={{ marginBottom: 0 }}>
+        Points
+      </Title>
+    ),
+    dataIndex: "points",
+    align: "center",
+    sorter: {
+      compare: (a, b) => a.points - b.points,
+      multiple: 2
+    },
+    render: value => (
+      <Title level={3} style={{ marginBottom: 0 }}>
+        {value}
+      </Title>
+    )
   },
   {
-    title: "Count",
-    dataIndex: "count"
+    title: (
+      <Title level={3} style={{ marginBottom: 0 }}>
+        Count
+      </Title>
+    ),
+    dataIndex: "count",
+    align: "center",
+    sorter: {
+      compare: (a, b) => a.count - b.count,
+      multiple: 1
+    },
+    defaultSortOrder: "descend",
+    render: value => (
+      <Title level={3} style={{ marginBottom: 0 }}>
+        {value}
+      </Title>
+    )
   }
 ];
 
@@ -34,8 +65,7 @@ const PointingResult = () => {
     <div>
       <Table
         style={{
-          boxShadow: "0px 0px 10px 5px #78797b",
-          minWidth: 500
+          boxShadow: "0px 0px 10px 5px #78797b"
         }}
         pagination={false}
         columns={columns}

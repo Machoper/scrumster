@@ -1,10 +1,10 @@
 import _ from "lodash";
-import { Button, Card, Divider, Progress, Space, Spin, Table } from "antd";
+import { Button, Card, Divider, Progress, Space, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import Cards from "../constants/cards";
-import { PointingCard } from "../style";
+import { PointingCard, PointingCardContainer } from "../style";
 import { Vote } from "..";
 import PointingResult from "./PointingResult";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
@@ -31,7 +31,7 @@ const PrimaryPane: React.FC<IProps> = ({ clearVotes, vote }) => {
       return 0;
     }
     const voted = _.filter(players, player => !!player.vote);
-    return (voted.length / players.length) * 100;
+    return Math.round((voted.length / players.length) * 100);
   };
 
   const getPlayerActionItems = () => {
@@ -111,7 +111,7 @@ const PrimaryPane: React.FC<IProps> = ({ clearVotes, vote }) => {
               </div>
             </div>
           ) : (
-            <Space size={[16, 16]} wrap>
+            <PointingCardContainer>
               {Cards.map(card => (
                 <PointingCard
                   key={card.id}
@@ -125,7 +125,7 @@ const PrimaryPane: React.FC<IProps> = ({ clearVotes, vote }) => {
                   <Title>{card.name}</Title>
                 </PointingCard>
               ))}
-            </Space>
+            </PointingCardContainer>
           )}
         </div>
       );

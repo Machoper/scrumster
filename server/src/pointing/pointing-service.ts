@@ -25,6 +25,7 @@ export default class PointingService {
     this.roomManager = new PointingRoomManager();
 
     this.pointingServer = new socketio.Server(server, {
+      transports: ["websocket"],
       path: "/pointing"
     }).on("connection", (socket: IPointingSocket) => {
       console.log("New client connected");
