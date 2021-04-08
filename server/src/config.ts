@@ -5,5 +5,6 @@ export default {
     port: process.env.PORT!,
     dbConnection: process.env.DB_CONNECTION!,
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET!,
-    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET!
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET!,
+    isDev: process.env.IS_DEV!
 }

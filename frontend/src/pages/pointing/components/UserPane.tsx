@@ -1,14 +1,15 @@
-import { CheckCircleFilled, LinkOutlined } from "@ant-design/icons";
+import { CheckCircleFilled } from "@ant-design/icons";
 import {
   Badge,
-  Button,
+  Card,
   Collapse,
   Divider,
   List,
   message,
-  PageHeader,
-  Space
+  Space,
 } from "antd";
+import Paragraph from "antd/lib/typography/Paragraph";
+import Title from "antd/lib/typography/Title";
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { ParticipantList, RadioButton, RadioGroup } from "../../style";
@@ -18,8 +19,9 @@ interface IProps {
 }
 
 const UserPane: React.FC<IProps> = ({ changeUserType }) => {
-  const { roomName, observers, players, currentUser } = useSelector(
+  const { roomId, roomName, observers, players, currentUser } = useSelector(
     (state: any) => ({
+      roomId: state.getIn(["pointing", "roomId"]),
       roomName: state.getIn(["pointing", "roomName"]),
       players: state.getIn(["pointing", "players"]).toJS(),
       observers: state.getIn(["pointing", "observers"]).toJS(),
@@ -29,19 +31,28 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={roomName}
-        subTitle={
-          <Button
-            type="link"
-            icon={<LinkOutlined />}
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
+      <Card
+        style={{
+          backgroundColor: "transparent",
+          boxShadow: "0px 0px 5px 2px #78797b",
+          borderRadius: 10
+        }}
+      >
+        <Title level={2}>{roomName}</Title>
+        <Paragraph
+          style={{ color: "grey" }}
+          copyable={{
+            text: `${window.location.host}/pointing/${roomId}`,
+            tooltips: "Copy room link",
+            onCopy: () => {
               message.success("Room link copied");
-            }}
-          />
-        }
-      />
+            }
+          }}
+        >
+          Room ID: {roomId}
+        </Paragraph>
+      </Card>
+      <Divider />
       <RadioGroup defaultValue={currentUser.type} buttonStyle="solid">
         <RadioButton
           value="observer"

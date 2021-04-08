@@ -28,10 +28,12 @@ const startServer = async () => {
     origin: "http://localhost:3000",
     credentials: true
   }))
-  app.use(express.static(path.resolve(__dirname, 'frontend')))
-  app.get('*', (_req, res, _next) => {
-      res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'))
-  })
+  if (!config.isDev) {
+    app.use(express.static(path.resolve(__dirname, 'frontend')))
+    app.get('*', (_req, res, _next) => {
+        res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'))
+    })
+  }
   app.post("/refresh_token", async (req, res) => {
     const token = req.cookies.jid;
     if (!token) {

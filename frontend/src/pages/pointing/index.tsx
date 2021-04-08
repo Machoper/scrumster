@@ -40,6 +40,7 @@ const Pointing = () => {
     const vote = (vote: Vote) => {
         if (currentUser.type == 'player') {
             socket.current?.emit('vote', vote)
+            dispatch(actionCreators.updateCurrentUser({ ...currentUser, vote }))
         }
     }
 

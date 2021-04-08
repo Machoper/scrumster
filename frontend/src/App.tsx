@@ -13,7 +13,10 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`refresh_token`, {
+    const uri = process.env.REACT_APP_IS_DEV
+      ? `${process.env.REACT_APP_API_ENDPOINT}/refresh_token`
+      : "refresh_token";
+    fetch(uri, {
       method: "POST",
       credentials: "include"
     }).then(
