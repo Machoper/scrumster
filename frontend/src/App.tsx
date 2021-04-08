@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import store from "./store";
-import MurcsHeader from "./common/header";
+import MurcsyHeader from "./common/header";
 import { Home, Login, Register, Pointing, Retro } from "./pages";
 import { ContentWrapper } from "./style";
 import { BackTop, Layout, Spin } from "antd";
@@ -54,7 +54,7 @@ const App: React.FC = () => {
               boxShadow: "0px 3px 4px 1px #78797b"
             }}
           >
-            <MurcsHeader />
+            <MurcsyHeader />
           </Header>
           <Layout style={{ marginTop: 64, minHeight: "calc(100vh - 64px)" }}>
             <Content>
