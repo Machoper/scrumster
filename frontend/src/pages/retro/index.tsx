@@ -38,8 +38,8 @@ const Retro = () => {
 
     useEffect(() => {
         socket.current = io(process.env.REACT_APP_API_ENDPOINT!, {
-            transports: ['websocket'],
-            path: '/retro'
+            transports: ['websocket', 'polling'],
+            path: '/socket/retro'
         })
         socket.current?.on('refresh', (data: any) => {
             setUsers(data.users)

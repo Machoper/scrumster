@@ -26,8 +26,8 @@ export default class RetroService {
     this.roomManager = new RetroRoomManager();
 
     this.retroServer = new socketio.Server(server, {
-      transports: ["websocket"],
-      path: "/retro"
+      transports: ["websocket", "polling"],
+      path: "/socket/retro"
     }).on("connection", (socket: IRetroSocket) => {
       console.log("New client connected");
       socket.on("join", props => this.joinRoom(socket, props));

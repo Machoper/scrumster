@@ -65,6 +65,7 @@ const App: React.FC = () => {
                 <Route path="/pointing" exact component={Pointing}></Route>
                 <Route path="/pointing/:roomId" component={Pointing}></Route>
                 <Route path="/retro" exact component={Retro}></Route>
+                <Route path="/retro/:roomId" component={Retro}></Route>
               </ContentWrapper>
             </Content>
             <Footer style={{ textAlign: "center", width: "100%" }}>

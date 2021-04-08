@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Machoper/murcs.svg?branch=develop)](https://travis-ci.org/Machoper/murcs)
 
-# MURCS
+# Murcsy
+### An interactive web application for scrum ceremonies
 
-Live demo: https://murcs-app.herokuapp.com/
+Live demo: [murcsy.io](https://www.murcsy.io)

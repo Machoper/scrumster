@@ -46,8 +46,8 @@ const Pointing = () => {
 
     useEffect(() => {
         socket.current = io(process.env.REACT_APP_API_ENDPOINT!, {
-            transports: ['websocket'],
-            path: '/pointing'
+            transports: ['websocket', 'polling'],
+            path: '/socket/pointing'
         })
         socket.current?.on('refresh', (data: any) => {
             dispatch(actionCreators.updateRoom(data))
