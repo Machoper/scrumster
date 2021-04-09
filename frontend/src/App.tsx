@@ -7,6 +7,7 @@ import { Home, Login, Register, Pointing, Retro } from "./pages";
 import { ContentWrapper } from "./style";
 import { BackTop, Layout, Spin } from "antd";
 import { setAccessToken } from "./client";
+import MurcsyFooter from "./common/footer";
 const { Header, Footer, Content } = Layout;
 
 const App: React.FC = () => {
@@ -68,8 +69,8 @@ const App: React.FC = () => {
                 <Route path="/retro/:roomId" component={Retro}></Route>
               </ContentWrapper>
             </Content>
-            <Footer style={{ textAlign: "center", width: "100%" }}>
-              ©2021 Created by Yixuan Qian
+            <Footer style={{ textAlign: "center", width: "100%", zIndex: 1 }}>
+              <MurcsyFooter />
             </Footer>
           </Layout>
           <BackTop />

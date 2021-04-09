@@ -1,19 +1,18 @@
-import { Collapse, Divider, List, message, Switch } from "antd";
+import { Collapse, Divider, List, message, Space, Switch, Tooltip } from "antd";
 import Paragraph from "antd/lib/typography/Paragraph";
 import Title from "antd/lib/typography/Title";
 import React, { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ParticipantList, RoomInfo } from "../../style";
-import { actionCreators } from "../store";
 
 interface IProps {
   users: any[];
-  toggleViewMode: (viewMode: boolean) => void;
 }
 
-const UserPane: React.FC<IProps> = ({ users, toggleViewMode }) => {
-  const { roomId, roomName, viewMode, currentUser } = useSelector(
+const UserPane: React.FC<IProps> = ({ users }) => {
+  const { socket, roomId, roomName, viewMode, currentUser } = useSelector(
     (state: any) => ({
+      socket: state.getIn(["retro", "socket"]).toJS(),
       roomId: state.getIn(["retro", "roomId"]),
       roomName: state.getIn(["retro", "roomName"]),
       viewMode: state.getIn(["retro", "viewMode"]),
@@ -21,7 +20,7 @@ const UserPane: React.FC<IProps> = ({ users, toggleViewMode }) => {
     })
   );
 
-  const dispatch = useDispatch();
+  const toggleViewMode = (isView: boolean) => socket.current?.emit('toggle_view_mode', isView);
 
   return (
     <Fragment>
@@ -44,11 +43,15 @@ const UserPane: React.FC<IProps> = ({ users, toggleViewMode }) => {
       <Collapse defaultActiveKey={["settings"]}>
         <Collapse.Panel header="Settings" key="settings">
           <div className="align-center-flex">
-            <label>View Mode</label>
-            <Switch
-              checked={viewMode}
-              onChange={() => toggleViewMode(!viewMode)}
-            />
+            <Space>
+              <label>View Mode</label>
+              <Tooltip title="Enter view mode to reveal items">
+                <Switch
+                  checked={viewMode}
+                  onChange={() => toggleViewMode(!viewMode)}
+                />
+              </Tooltip>
+            </Space>
           </div>
         </Collapse.Panel>
       </Collapse>

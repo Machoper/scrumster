@@ -2,22 +2,23 @@ import { CheckCircleFilled } from "@ant-design/icons";
 import { Badge, Collapse, Divider, List, message, Space } from "antd";
 import Paragraph from "antd/lib/typography/Paragraph";
 import Title from "antd/lib/typography/Title";
-import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ParticipantList,
   RadioButton,
   RadioGroup,
   RoomInfo
 } from "../../style";
+import { actionCreators } from "../store";
 
 interface IProps {
-  changeUserType: (type: string) => void;
 }
 
-const UserPane: React.FC<IProps> = ({ changeUserType }) => {
-  const { roomId, roomName, observers, players, currentUser } = useSelector(
+const UserPane: React.FC<IProps> = ({ }) => {
+  const { socket, roomId, roomName, observers, players, currentUser } = useSelector(
     (state: any) => ({
+      socket: state.getIn(["pointing", "socket"]).toJS(),
       roomId: state.getIn(["pointing", "roomId"]),
       roomName: state.getIn(["pointing", "roomName"]),
       players: state.getIn(["pointing", "players"]).toJS(),
@@ -25,6 +26,12 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
       currentUser: state.getIn(["pointing", "currentUser"]).toJS()
     })
   );
+  const dispatch = useDispatch();
+
+  const changeUserType = (type: string) => {
+    socket.current?.emit('change_user_type', type);
+    dispatch(actionCreators.updateCurrentUser({ ...currentUser, type }));
+  }
 
   return (
     <div>
@@ -105,10 +112,10 @@ const UserPane: React.FC<IProps> = ({ changeUserType }) => {
                         <Badge
                           count={player.vote}
                           overflowCount={100}
-                          style={{ backgroundColor: "black" }}
+                          style={{ backgroundColor: "#1890ff" }}
                         />
                       ) : (
-                        <CheckCircleFilled />
+                        <CheckCircleFilled style={{color: "#1890ff"}} />
                       )
                     ) : null}
                   </Space>
