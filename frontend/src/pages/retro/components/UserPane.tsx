@@ -8,9 +8,10 @@ import { actionCreators } from "../store";
 
 interface IProps {
   users: any[];
+  toggleViewMode: (viewMode: boolean) => void;
 }
 
-const UserPane: React.FC<IProps> = ({ users }) => {
+const UserPane: React.FC<IProps> = ({ users, toggleViewMode }) => {
   const { roomId, roomName, viewMode, currentUser } = useSelector(
     (state: any) => ({
       roomId: state.getIn(["retro", "roomId"]),
@@ -46,7 +47,7 @@ const UserPane: React.FC<IProps> = ({ users }) => {
             <label>View Mode</label>
             <Switch
               checked={viewMode}
-              onChange={() => dispatch(actionCreators.setViewMode(!viewMode))}
+              onChange={() => toggleViewMode(!viewMode)}
             />
           </div>
         </Collapse.Panel>

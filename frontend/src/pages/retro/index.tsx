@@ -44,6 +44,7 @@ const Retro = () => {
         socket.current?.on('refresh', (data: any) => {
             setUsers(data.users)
             setItems(data.items)
+            dispatch(actionCreators.setViewMode(data.viewMode))
         }).on('joined', ({ user, room }: any) => {
             dispatch(actionCreators.updateCurrentUser(user))
             dispatch(actionCreators.setRoomInfo(room))
@@ -64,7 +65,8 @@ const Retro = () => {
                 <Row gutter={32} className="animate__animated animate__fadeIn">
                     <Col span={6}>
                         <UserPane
-							users={users}
+                            users={users}
+                            toggleViewMode={viewMode => socket.current?.emit('toggle_view_mode', viewMode)}
                         />
                     </Col>
                     <Col span={18}>
