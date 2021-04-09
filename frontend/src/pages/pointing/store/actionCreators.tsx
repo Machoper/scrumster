@@ -1,6 +1,11 @@
 import { ActionType } from "./actionType.enum";
 import { fromJS } from 'immutable'
+import { Socket } from "socket.io-client";
 
+export const setSocket = (socket: React.MutableRefObject<Socket | undefined>) => ({
+    type: ActionType.SET_SOCKET,
+    socket: fromJS(socket)
+  });
 export const updateRoom = (data: any) => ({
     type: ActionType.UPDATE_ROOM,
     data: fromJS(data)

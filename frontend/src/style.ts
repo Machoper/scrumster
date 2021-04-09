@@ -70,3 +70,10 @@ export const GlobalStyle = createGlobalStyle`
 export const ContentWrapper = styled.div`
   padding: 16px;
 `;
+
+export const Hoverable = styled.div`
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;

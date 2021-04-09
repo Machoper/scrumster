@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Card } from "antd";
-import Title from "antd/lib/typography/Title";
 
 export const PointingCard: typeof Card = styled(Card)`
   flex: 0 0 150px;

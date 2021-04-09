@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 import { ActionType } from "./actionType.enum";
 
 const defautltState = fromJS({
+  socket: {},
   roomId: "",
   roomName: "",
   players: [],
@@ -11,6 +12,8 @@ const defautltState = fromJS({
 
 const reducer = (state = defautltState, action: any) => {
   switch (action.type) {
+    case ActionType.SET_SOCKET:
+      return state.set("socket", action.socket);
     case ActionType.UPDATE_ROOM:
       return state.merge({
         players: action.data.get("players"),
