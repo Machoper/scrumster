@@ -12,7 +12,7 @@ const Home: React.FC = () => {
           style={{ fontSize: 60 }}
           className="animate__animated animate__fadeInDown"
         >
-          Welcome to Murcsy
+          Welcome to Scrumster
         </Title>
       </div>
       <Title

@@ -30,7 +30,7 @@ const getUserMenu = (client: ApolloClient<any>, logout: LogoutMutationFn, data?:
   );
 }
 
-const MurcsyHeader = () => {
+const MyHeader = () => {
   const [selectedMenuKeys, setSelectedMenuKeys] = useState<string[]>([]);
 
   const { client, data } = useMeQuery();
@@ -71,4 +71,4 @@ const MurcsyHeader = () => {
   );
 };
 
-export default MurcsyHeader;
+export default MyHeader;

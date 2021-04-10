@@ -7,9 +7,10 @@ export const HeaderWrapper = styled.div`
 export const Logo = styled.div`
   display: block;
   float: left;
-  width: 120px;
-  height: 64px;
-  margin-right: 24px;
+  width: 176px;
+  height: 56px;
+  margin-top: 4px;
+  margin-right: 8px;
   background: url(${logoPic});
   background-size: contain;
   background-repeat: no-repeat;

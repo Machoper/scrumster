@@ -2,7 +2,7 @@ import { Drawer } from "antd";
 import Paragraph from "antd/lib/typography/Paragraph";
 import React, { useState } from "react";
 
-const MurcsyFooter: React.FC = () => {
+const MyFooter: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -31,4 +31,4 @@ const MurcsyFooter: React.FC = () => {
   );
 };
 
-export default MurcsyFooter;
+export default MyFooter;

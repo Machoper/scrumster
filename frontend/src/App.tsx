@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import store from "./store";
-import MurcsyHeader from "./common/header";
+import MyHeader from "./common/header";
 import { Home, Login, Register, Pointing, Retro } from "./pages";
 import { ContentWrapper } from "./style";
 import { BackTop, Layout, Spin } from "antd";
 import { setAccessToken } from "./client";
-import MurcsyFooter from "./common/footer";
+import MyFooter from "./common/footer";
 const { Header, Footer, Content } = Layout;
 
 const App: React.FC = () => {
@@ -55,7 +55,7 @@ const App: React.FC = () => {
               boxShadow: "0px 3px 4px 1px #78797b"
             }}
           >
-            <MurcsyHeader />
+            <MyHeader />
           </Header>
           <Layout style={{ marginTop: 64, minHeight: "calc(100vh - 64px)" }}>
             <Content>
@@ -70,7 +70,7 @@ const App: React.FC = () => {
               </ContentWrapper>
             </Content>
             <Footer style={{ textAlign: "center", width: "100%", zIndex: 1 }}>
-              <MurcsyFooter />
+              <MyFooter />
             </Footer>
           </Layout>
           <BackTop />
