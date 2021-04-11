@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
-import Title from "antd/lib/typography/Title";
+import { Content } from "antd/lib/layout/layout";
 
 export const GlobalStyle = createGlobalStyle`
 	html, body, div, span, applet, object, iframe,
@@ -53,12 +53,11 @@ export const GlobalStyle = createGlobalStyle`
 		justify-content: center;
 		align-items: center;
 	}
-	.container {
-		position: absolute;
-		left: 0px;
-		top: 0px;
-		width: 100%;
-		height: 100%;
+	.flex {
+		display: flex;
+	}
+	.flex-auto {
+		flex: auto;
 	}
 
 	/* antd overwrites */
@@ -67,7 +66,8 @@ export const GlobalStyle = createGlobalStyle`
 	}
 `;
 
-export const ContentWrapper = styled.div`
+export const MyContent: typeof Content = styled(Content)`
+  display: flex;
   padding: 16px;
 `;
 

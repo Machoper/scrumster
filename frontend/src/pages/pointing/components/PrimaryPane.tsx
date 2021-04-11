@@ -1,19 +1,28 @@
 import _ from "lodash";
-import { Button, Card, Divider, Progress, Space, Spin } from "antd";
+import { Button, Divider, Progress, Space, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cards from "../constants/cards";
-import { PointingCard, PointingCardContainer } from "../style";
+import {
+  InProgressContainer,
+  PointingCard,
+  PointingCardContainer
+} from "../style";
 import PointingResult from "./PointingResult";
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  ClearOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  MinusOutlined,
+  PlusOutlined
+} from "@ant-design/icons";
 import { actionCreators } from "../store";
 import { Vote } from "../constants/vote";
 
-interface IProps {
-}
+interface IProps {}
 
-const PrimaryPane: React.FC<IProps> = ({ }) => {
+const PrimaryPane: React.FC<IProps> = ({}) => {
   const [showVotes, setShowVotes] = useState(false);
 
   const { socket, players, currentUser } = useSelector((state: any) => ({
@@ -83,7 +92,6 @@ const PrimaryPane: React.FC<IProps> = ({ }) => {
     return (
       <Space size="large" className="align-center-flex">
         <Button
-          type="primary"
           shape="round"
           size="large"
           onClick={() => {
@@ -91,35 +99,34 @@ const PrimaryPane: React.FC<IProps> = ({ }) => {
             setShowVotes(false);
           }}
         >
+          <ClearOutlined />
           Clear Votes
         </Button>
         <Button
-          type="primary"
           shape="round"
           size="large"
           onClick={() => {
             setShowVotes(!showVotes);
           }}
         >
+          {showVotes ? <EyeInvisibleOutlined /> : <EyeOutlined />}
           {showVotes ? "Hide Votes" : "Show Votes"}
         </Button>
       </Space>
     );
   };
 
-  if (currentUser.type == "player") {
+  if (currentUser.type === "player") {
     return (
       <div>
         {isAllVoted() ? (
-          <div>
+          <div className="animate__animated animate__fadeIn">
             {getPlayerActionItems()}
             <Divider />
-            <div className="align-center-flex">
-              <PointingResult />
-            </div>
+            <PointingResult />
           </div>
         ) : (
-          <PointingCardContainer>
+          <PointingCardContainer className="animate__animated animate__fadeIn">
             {Cards.map(card => (
               <PointingCard
                 key={card.id}
@@ -142,23 +149,20 @@ const PrimaryPane: React.FC<IProps> = ({ }) => {
       <Fragment>
         {getObserverActionItems()}
         <Divider />
-        <div className="align-center-flex">
-          {isAllVoted() || showVotes ? (
-            <PointingResult />
-          ) : (
-            <Card style={{ backgroundColor: "transparent" }}>
-              <Progress
-                className="align-center-flex"
-                type="circle"
-                trailColor="grey"
-                percent={getVotedPercent()}
-              />
-              <Title style={{ marginTop: 30 }}>
-                Voting in progress <Spin size="large" />
-              </Title>
-            </Card>
-          )}
-        </div>
+        {isAllVoted() || showVotes ? (
+          <PointingResult />
+        ) : (
+          <InProgressContainer className="animate__animated animate__fadeIn">
+            <Progress
+              type="circle"
+              trailColor="grey"
+              percent={getVotedPercent()}
+            />
+            <Title style={{ marginTop: 30 }}>
+              Voting in progress <Spin size="large" />
+            </Title>
+          </InProgressContainer>
+        )}
       </Fragment>
     );
   }

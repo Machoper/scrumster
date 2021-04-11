@@ -53,7 +53,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
   };
 
   return (
-    <div className="align-center-flex container">
+    <div className="align-center-flex flex-auto">
       <Card className="animate__animated animate__fadeIn"
         title={
           <Title level={2} className="align-center-flex">

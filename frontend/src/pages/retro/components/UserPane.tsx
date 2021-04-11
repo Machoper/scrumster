@@ -1,9 +1,8 @@
-import { Collapse, Divider, List, message, Space, Switch, Tooltip } from "antd";
-import Paragraph from "antd/lib/typography/Paragraph";
-import Title from "antd/lib/typography/Title";
+import { Collapse, Divider, List, Space, Switch, Tooltip } from "antd";
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { ParticipantList, RoomInfo } from "../../style";
+import RoomInfo from "../../../common/roomInfo";
+import { ParticipantList } from "../../style";
 
 interface IProps {
   users: any[];
@@ -23,22 +22,8 @@ const UserPane: React.FC<IProps> = ({ users }) => {
   const toggleViewMode = (isView: boolean) => socket.current?.emit('toggle_view_mode', isView);
 
   return (
-    <Fragment>
-      <RoomInfo>
-        <Title level={2}>{roomName}</Title>
-        <Paragraph
-          style={{ color: "grey" }}
-          copyable={{
-            text: `${window.location.host}/retro/${roomId}`,
-            tooltips: "Copy room link",
-            onCopy: () => {
-              message.success("Room link copied");
-            }
-          }}
-        >
-          Room ID: {roomId}
-        </Paragraph>
-      </RoomInfo>
+    <div>
+      <RoomInfo roomId={roomId} roomName={roomName} path={"retro"} />
       <Divider />
       <Collapse defaultActiveKey={["settings"]}>
         <Collapse.Panel header="Settings" key="settings">
@@ -96,7 +81,7 @@ const UserPane: React.FC<IProps> = ({ users }) => {
           />
         </Collapse.Panel>
       </Collapse>
-    </Fragment>
+    </div>
   );
 };
 

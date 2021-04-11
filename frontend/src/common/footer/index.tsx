@@ -17,7 +17,7 @@ const MyFooter: React.FC = () => {
         onClose={() => setVisible(false)}
         visible={visible}
       >
-        <Paragraph copyable={{ text: "qianyixuaneric@gmail.com" }}>
+        <Paragraph>
           <b>Email</b>: qianyixuaneric@gmail.com
         </Paragraph>
         <Paragraph>

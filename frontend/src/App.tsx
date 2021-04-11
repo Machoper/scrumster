@@ -4,10 +4,11 @@ import { BrowserRouter, Route } from "react-router-dom";
 import store from "./store";
 import MyHeader from "./common/header";
 import { Home, Login, Register, Pointing, Retro } from "./pages";
-import { ContentWrapper } from "./style";
-import { BackTop, Layout, Spin } from "antd";
+import { MyContent } from "./style";
+import { Affix, BackTop, Layout, Space, Spin } from "antd";
 import { setAccessToken } from "./client";
 import MyFooter from "./common/footer";
+import Title from "antd/lib/typography/Title";
 const { Header, Footer, Content } = Layout;
 
 const App: React.FC = () => {
@@ -36,8 +37,11 @@ const App: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="align-center-flex container">
-        <Spin className="" size="large"></Spin>
+      <div className="align-center-flex" style={{ minHeight: "100vh" }}>
+        <Space>
+          <Title>Loading...</Title>
+          <Spin size="large" />
+        </Space>
       </div>
     );
   }
@@ -45,7 +49,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Layout style={{ overflow: "auto" }}>
+        <Layout style={{ overflow: "auto", minHeight: "100vh" }}>
           <Header
             style={{
               position: "fixed",
@@ -57,19 +61,17 @@ const App: React.FC = () => {
           >
             <MyHeader />
           </Header>
-          <Layout style={{ marginTop: 64, minHeight: "calc(100vh - 64px)" }}>
-            <Content>
-              <ContentWrapper>
-                <Route path="/" exact component={Home}></Route>
-                <Route path="/register" exact component={Register}></Route>
-                <Route path="/login" exact component={Login}></Route>
-                <Route path="/pointing" exact component={Pointing}></Route>
-                <Route path="/pointing/:roomId" component={Pointing}></Route>
-                <Route path="/retro" exact component={Retro}></Route>
-                <Route path="/retro/:roomId" component={Retro}></Route>
-              </ContentWrapper>
-            </Content>
-            <Footer style={{ textAlign: "center", width: "100%", zIndex: 1 }}>
+          <Layout style={{ marginTop: 64 }}>
+            <MyContent>
+              <Route path="/" exact component={Home}></Route>
+              <Route path="/register" exact component={Register}></Route>
+              <Route path="/login" exact component={Login}></Route>
+              <Route path="/pointing" exact component={Pointing}></Route>
+              <Route path="/pointing/:roomId" component={Pointing}></Route>
+              <Route path="/retro" exact component={Retro}></Route>
+              <Route path="/retro/:roomId" component={Retro}></Route>
+            </MyContent>
+            <Footer style={{ textAlign: "center", zIndex: 1 }}>
               <MyFooter />
             </Footer>
           </Layout>

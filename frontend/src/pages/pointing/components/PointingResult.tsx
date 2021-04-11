@@ -62,10 +62,11 @@ const PointingResult = () => {
   const consensus = () => getResult().length === 1;
 
   return (
-    <div>
+    <div className="align-center-flex">
       <Table
         style={{
-          boxShadow: "0px 0px 10px 5px #78797b"
+          boxShadow: "0px 0px 10px 5px #78797b",
+          marginRight: 16
         }}
         pagination={false}
         columns={columns}

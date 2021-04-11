@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Avatar, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { HeaderWrapper, Logo, UserMenu } from "./style";
+import { Logo, UserMenu } from "./style";
 import { LogoutMutationFn, MeQuery, useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { ApolloClient } from "@apollo/react-hooks";
 import { setAccessToken } from "../../client";
@@ -37,7 +37,7 @@ const MyHeader = () => {
   const [logout] = useLogoutMutation();
 
   return (
-    <HeaderWrapper>
+    <Fragment>
       <Link to="/">
         <Logo onClick={() => setSelectedMenuKeys([])} />
       </Link>
@@ -67,7 +67,7 @@ const MyHeader = () => {
           <Avatar icon={<UserOutlined />} />
         </Dropdown>
       </UserMenu>
-    </HeaderWrapper>
+    </Fragment>
   );
 };
 

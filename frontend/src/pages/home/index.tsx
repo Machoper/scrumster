@@ -4,7 +4,7 @@ import Title from "antd/lib/typography/Title";
 const Home: React.FC = () => {
   return (
     <div
-      className="align-center-flex container"
+      className="align-center-flex flex-auto"
       style={{ flexDirection: "column" }}
     >
       <div>

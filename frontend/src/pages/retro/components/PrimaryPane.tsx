@@ -1,7 +1,7 @@
-import { Row, Col } from "antd";
 import Title from "antd/lib/typography/Title";
 import _ from "lodash";
-import React from "react";
+import React, { Fragment } from "react";
+import { LaneContainer } from "../style";
 import RetroLane from "./RetroLane";
 
 interface IProps {
@@ -29,9 +29,9 @@ const PrimaryPane: React.FC<IProps> = ({ items }) => {
   };
 
   return (
-    <Row gutter={16}>
+    <Fragment>
       {LANES.map(lane => (
-        <Col key={lane.type} span={8}>
+        <LaneContainer>
           <Title
             level={2}
             className="align-center-flex"
@@ -40,9 +40,9 @@ const PrimaryPane: React.FC<IProps> = ({ items }) => {
             {lane.title}
           </Title>
           <RetroLane type={lane.type} items={getItemsByType(lane.type)} />
-        </Col>
+        </LaneContainer>
       ))}
-    </Row>
+    </Fragment>
   );
 };
 

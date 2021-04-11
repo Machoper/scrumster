@@ -1,16 +1,12 @@
 import styled from "styled-components";
 import logoPic from "../../static/logo.png";
 
-export const HeaderWrapper = styled.div`
-  text-color: #fff;
-`;
 export const Logo = styled.div`
   display: block;
   float: left;
-  width: 176px;
-  height: 56px;
-  margin-top: 4px;
-  margin-right: 8px;
+  width: 158px;
+  height: 50px;
+  margin: 4px 24px 10px 0;
   background: url(${logoPic});
   background-size: contain;
   background-repeat: no-repeat;

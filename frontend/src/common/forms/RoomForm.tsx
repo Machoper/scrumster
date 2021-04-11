@@ -14,9 +14,9 @@ const JoinRoomForm: React.FC<IProps> = ({
         <Fragment>
             {formType === RoomFormType.JOIN_ROOM &&
                 <Form.Item
-                    label="Room Id"
+                    label="Room ID"
                     name="roomId"
-                    rules={[{ required: true, message: 'Please input room id!' }]}
+                    rules={[{ required: true, message: 'Please input room ID!' }]}
                 >
                     <Input />
                 </Form.Item>

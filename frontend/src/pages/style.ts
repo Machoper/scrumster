@@ -13,8 +13,10 @@ export const RadioButton: typeof Radio.Button = styled(Radio.Button)`
   width: 50%;
 `;
 
-export const RoomInfo: typeof Card = styled(Card)`
-  background-color: transparent;
+export const RoomInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
   box-shadow: 0px 0px 5px 2px #78797b;
   border-radius: 10px;
 `;

@@ -10,6 +10,7 @@ import { UserPane, PrimaryPane } from "./components";
 import { useParams } from "react-router-dom";
 import { RoomFormType } from "../../common/forms/RoomFormType.enum";
 import Lobby from "../../common/lobby";
+import { PointingContainer, PrimaryPaneContainer, UserPaneContainer } from "./style";
 
 const Pointing = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -58,14 +59,14 @@ const Pointing = () => {
   return (
     <Fragment>
       {currentUser.id ? (
-        <Row gutter={32} className="animate__animated animate__fadeIn">
-          <Col span={6}>
+        <PointingContainer >
+          <UserPaneContainer className="animate__animated animate__fadeIn">
             <UserPane />
-          </Col>
-          <Col span={18}>
+          </UserPaneContainer>
+          <PrimaryPaneContainer>
             <PrimaryPane />
-          </Col>
-        </Row>
+          </PrimaryPaneContainer>
+        </PointingContainer>
       ) : (
         <Lobby
           onCreateRoom={() => {

@@ -11,7 +11,7 @@ interface IProps {
 
 const Lobby: React.FC<IProps> = ({ onCreateRoom, onJoinRoom }) => {
   return (
-    <div className="align-center-flex container">
+    <div className="align-center-flex flex-auto">
       <Row gutter={32}>
         <Col span={10}>
           <ActionCard

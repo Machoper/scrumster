@@ -1,14 +1,12 @@
 import { CheckCircleFilled } from "@ant-design/icons";
-import { Badge, Collapse, Divider, List, message, Space } from "antd";
-import Paragraph from "antd/lib/typography/Paragraph";
-import Title from "antd/lib/typography/Title";
+import { Badge, Collapse, Divider, List, Space } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import RoomInfo from "../../../common/roomInfo";
 import {
   ParticipantList,
   RadioButton,
-  RadioGroup,
-  RoomInfo
+  RadioGroup
 } from "../../style";
 import { actionCreators } from "../store";
 
@@ -35,21 +33,7 @@ const UserPane: React.FC<IProps> = ({ }) => {
 
   return (
     <div>
-      <RoomInfo>
-        <Title level={2}>{roomName}</Title>
-        <Paragraph
-          style={{ color: "grey" }}
-          copyable={{
-            text: `${window.location.host}/pointing/${roomId}`,
-            tooltips: "Copy room link",
-            onCopy: () => {
-              message.success("Room link copied");
-            }
-          }}
-        >
-          Room ID: {roomId}
-        </Paragraph>
-      </RoomInfo>
+      <RoomInfo roomId={roomId} roomName={roomName} path={"pointing"} />
       <Divider />
       <RadioGroup defaultValue={currentUser.type} buttonStyle="solid">
         <RadioButton

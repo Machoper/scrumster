@@ -11,6 +11,7 @@ import Lobby from "../../common/lobby";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { actionCreators } from "./store";
+import { PrimaryPaneContainer, RetroContainer, UserPaneContainer } from "./style";
 
 const Retro = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -64,14 +65,14 @@ const Retro = () => {
   return (
     <Fragment>
       {currentUser.id ? (
-        <Row gutter={32} className="animate__animated animate__fadeIn">
-          <Col span={6}>
-            <UserPane users={users} />
-          </Col>
-          <Col span={18}>
-            <PrimaryPane items={items} />
-          </Col>
-        </Row>
+        <RetroContainer>
+            <UserPaneContainer className="animate__animated animate__fadeIn">
+              <UserPane users={users} />
+            </UserPaneContainer>
+            <PrimaryPaneContainer className="animate__animated animate__fadeIn">
+              <PrimaryPane items={items} />
+            </PrimaryPaneContainer>
+        </RetroContainer>
       ) : (
         <Lobby
           onCreateRoom={() => {
